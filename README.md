@@ -1,1 +1,1 @@
-# Recette_App
+# Recette app
