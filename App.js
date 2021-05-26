@@ -1,7 +1,10 @@
 import React from "react";
 import AppLoading from "expo-app-loading";
+import { enableScreens } from "react-native-screens";
 import { useFonts } from "expo-font";
 import RecipesNavigator from "./navigation/RecipesNavigator";
+
+enableScreens();
 
 export default function App() {
   let [fontsLoaded] = useFonts({
