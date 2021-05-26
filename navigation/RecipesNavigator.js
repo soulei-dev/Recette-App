@@ -19,17 +19,17 @@ const CategoriesStackScreen = () => (
     <CategoriesStack.Screen
       name="Categories"
       component={Categories}
-      options={{ headerTitle: "Catégories des recettes" }}
+      options={{ title: "Catégories des recettes" }}
     />
     <CategoriesStack.Screen
       name="CategoryRecipes"
       component={CategoryRecipes}
-      options={{ headerTitle: "Recettes" }}
+      options={{ title: "Recettes" }}
     />
     <CategoriesStack.Screen
       name="RecipeDetail"
       component={RecipeDetail}
-      options={{ headerTitle: "Détail de la recette" }}
+      options={{ title: "Détail de la recette" }}
     />
   </CategoriesStack.Navigator>
 );
