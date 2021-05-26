@@ -2,6 +2,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Colors from "../constants/Colors";
 import Categories from "../screens/Categories";
 import Filters from "../screens/Filters";
 import Favorites from "../screens/Favorites";
@@ -48,7 +49,7 @@ const FavoritesStackScreen = () => (
 export default function RecipesNavigator() {
   return (
     <NavigationContainer>
-      <Tabs.Navigator>
+      <Tabs.Navigator tabBarOptions={{ activeTintColor: Colors.primaryColor }}>
         <Tabs.Screen name="Home" component={CategoriesStackScreen} />
         <Tabs.Screen name="Filtrer" component={FiltersStackScreen} />
         <Tabs.Screen name="Favoris" component={FavoritesStackScreen} />

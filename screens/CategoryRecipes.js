@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Button, View, Text } from "react-native";
+import { CATEGORIES } from "../data/fake-data";
 
-const CategoryRecipes = ({ navigation }) => {
+const CategoryRecipes = ({ route, navigation }) => {
+  const { categoryId } = route.params;
+  const selectedCategory = CATEGORIES.find((cat) => cat.id === categoryId);
   return (
     <View style={styles.screen}>
       <Text>Ecran de la catégorie des recettes !</Text>
+      <Text>{selectedCategory.title}</Text>
       <Button
         title="Go to Detail"
         onPress={() => {
