@@ -5,6 +5,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Categories from "../screens/Categories";
 import Filters from "../screens/Filters";
 import Favorites from "../screens/Favorites";
+import CategoryRecipes from "../screens/CategoryRecipes";
+import RecipeDetail from "../screens/RecipeDetail";
 
 const Tabs = createBottomTabNavigator();
 const CategoriesStack = createStackNavigator();
@@ -13,7 +15,21 @@ const FavoritesStack = createStackNavigator();
 
 const CategoriesStackScreen = () => (
   <CategoriesStack.Navigator>
-    <CategoriesStack.Screen name="Home" component={Categories} />
+    <CategoriesStack.Screen
+      name="Categories"
+      component={Categories}
+      options={{ headerTitle: "Catégories des recettes" }}
+    />
+    <CategoriesStack.Screen
+      name="CategoryRecipes"
+      component={CategoryRecipes}
+      options={{ headerTitle: "Recettes" }}
+    />
+    <CategoriesStack.Screen
+      name="RecipeDetail"
+      component={RecipeDetail}
+      options={{ headerTitle: "Détail de la recette" }}
+    />
   </CategoriesStack.Navigator>
 );
 
