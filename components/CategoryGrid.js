@@ -9,30 +9,17 @@ import {
 
 const CategoryGrid = ({ title, onSelect, image }) => {
   return (
-    <TouchableOpacity style={styles.gridItem} onPress={onSelect}>
-      <View>
+    <View style={styles.gridItem}>
+      <TouchableOpacity onPress={onSelect}>
         <ImageBackground
           imageStyle={{ borderRadius: 10 }}
           style={styles.imageContainer}
           source={image}
         >
-          <Text
-            style={{
-              textTransform: "uppercase",
-              fontFamily: "Montserrat-Bold",
-              fontSize: 15,
-              textAlign: "center",
-              color: "#FFF",
-              textShadowColor: "black",
-              textShadowOffset: { width: 2, height: 2 },
-              textShadowRadius: 2,
-            }}
-          >
-            {title}
-          </Text>
+          <Text style={styles.titleStyle}>{title}</Text>
         </ImageBackground>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -50,8 +37,18 @@ const styles = StyleSheet.create({
   },
   gridItem: {
     flex: 1,
-    margin: 15,
+    margin: 22,
     height: 160,
+  },
+  titleStyle: {
+    textTransform: "uppercase",
+    fontFamily: "Montserrat-Bold",
+    fontSize: 15,
+    textAlign: "center",
+    color: "#FFF",
+    textShadowColor: "black",
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 2,
   },
 });
 

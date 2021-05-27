@@ -1,7 +1,9 @@
 import React from "react";
-import { StyleSheet, FlatList } from "react-native";
+import { StyleSheet, FlatList, View, TouchableOpacity } from "react-native";
 import { CATEGORIES } from "../data/fake-data";
 import CategoryGrid from "../components/CategoryGrid";
+import { MaterialIcons } from "@expo/vector-icons";
+import Colors from "../constants/Colors";
 
 const Categories = ({ navigation }) => {
   const renderGridItem = (itemData) => {
@@ -19,12 +21,27 @@ const Categories = ({ navigation }) => {
   };
 
   return (
-    <FlatList
-      keyboardShouldPersistTaps="handled"
-      data={CATEGORIES}
-      renderItem={renderGridItem}
-      numColumns={2}
-    />
+    <View>
+      <TouchableOpacity
+        style={styles.addCategoryButton}
+        onPress={() => navigation.navigate("AddCategory")}
+      >
+        <MaterialIcons
+          name="add-circle-outline"
+          size={42}
+          color={Colors.primaryColor}
+        />
+      </TouchableOpacity>
+
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+        data={CATEGORIES}
+        renderItem={renderGridItem}
+        numColumns={2}
+        contentContainerStyle={{ paddingBottom: 160 }}
+      />
+    </View>
   );
 };
 
@@ -33,6 +50,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  addCategoryButton: {
+    width: 150,
+    height: 150,
+    borderWidth: 1,
+    borderStyle: "dashed",
+    borderColor: Colors.primaryColor,
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 15,
   },
 });
 
