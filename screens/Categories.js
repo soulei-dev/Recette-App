@@ -8,7 +8,7 @@ const Categories = ({ navigation }) => {
     return (
       <CategoryGrid
         title={itemData.item.title}
-        color={itemData.item.color}
+        image={itemData.item.image}
         onSelect={() => {
           navigation.navigate("CategoryRecipes", {
             categoryId: itemData.item.id,
