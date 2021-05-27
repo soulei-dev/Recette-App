@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Text,
   StyleSheet,
@@ -8,8 +8,25 @@ import {
 } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
+import api from "../api/api";
 
 const AddCategory = () => {
+  // const [image, setImage] = useState("");
+  const [enteredTitle, setEnteredTitle] = useState("");
+
+  const createNewCategory = () => {
+    api
+      .post("/categories", {
+        // image: setImage(image),
+        title: enteredTitle,
+      })
+      .then(({ data }) => {
+        console.log(data);
+        setEnteredTitle("");
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <View style={styles.screen}>
       <Text
@@ -31,7 +48,7 @@ const AddCategory = () => {
       </View>
       <Text
         style={{
-          marginLeft: 30,
+          marginLeft: 20,
           fontSize: 20,
           marginTop: 40,
           fontFamily: "Montserrat-Regular",
@@ -46,11 +63,16 @@ const AddCategory = () => {
           alignItems: "flex-end",
         }}
       >
-        <TextInput style={styles.input} placeholder="Pâtisserie" />
-        <TouchableOpacity onPress={() => alert("Envoyez")}>
+        <TextInput
+          style={styles.input}
+          placeholder="Pâtisserie"
+          onChangeText={(enteredTitle) => setEnteredTitle(enteredTitle)}
+          value={enteredTitle}
+        />
+        <TouchableOpacity onPress={createNewCategory}>
           <MaterialIcons
             name="add-circle"
-            size={32}
+            size={42}
             color={Colors.primaryColor}
           />
         </TouchableOpacity>
@@ -74,7 +96,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   input: {
-    width: "60%",
+    width: "75%",
     borderWidth: 1,
     borderRadius: 50,
     borderColor: "#C7C7C7",

@@ -14,8 +14,6 @@ export const CATEGORIES = [
     require("../assets/images/petit-dej-cat.jpeg")
   ),
   new Category("05", "Autre ", require("../assets/images/autre-cat.jpeg")),
-  new Category("06", "Autre ", require("../assets/images/autre-cat.jpeg")),
-  new Category("07", "Autre ", require("../assets/images/autre-cat.jpeg")),
   new Category(
     "08",
     "Hamburgers ",
