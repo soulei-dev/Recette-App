@@ -15,16 +15,20 @@ const AddCategory = () => {
   const [enteredTitle, setEnteredTitle] = useState("");
 
   const createNewCategory = () => {
-    api
-      .post("/categories", {
-        // image: setImage(image),
-        title: enteredTitle,
-      })
-      .then(({ data }) => {
-        console.log(data);
-        setEnteredTitle("");
-      })
-      .catch((error) => console.log(error));
+    if (enteredTitle === "") {
+      return;
+    } else {
+      api
+        .post("/categories", {
+          // image: image,
+          title: enteredTitle,
+        })
+        .then(({ data }) => {
+          console.log(data);
+          setEnteredTitle("");
+        })
+        .catch((error) => console.log(error));
+    }
   };
 
   return (
