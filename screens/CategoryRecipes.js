@@ -1,23 +1,32 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Button, View, Text } from "react-native";
-import { CATEGORIES } from "../data/fake-data";
+import { StyleSheet, View, Text, FlatList } from "react-native";
+import { CATEGORIES, RECIPES } from "../data/fake-data";
 
 const CategoryRecipes = ({ route, navigation }) => {
   const { categoryId } = route.params;
   const selectedCategory = CATEGORIES.find((cat) => cat.id === categoryId);
+  const displayRecipes = RECIPES.filter(
+    (recipe) => recipe.categoryIds.indexOf(categoryId) >= 0
+  );
 
   useEffect(() => {
     navigation.setOptions({ title: selectedCategory.title });
   });
+
+  const renderRecipeItem = (itemData) => {
+    return (
+      <View>
+        <Text>{itemData.item.name}</Text>
+      </View>
+    );
+  };
+
   return (
     <View style={styles.screen}>
-      <Text>Ecran de la catégorie des recettes !</Text>
-      <Text>{selectedCategory.title}</Text>
-      <Button
-        title="Go to Detail"
-        onPress={() => {
-          navigation.push("RecipeDetail");
-        }}
+      <FlatList
+        data={displayRecipes}
+        keyExtractor={(item, index) => item.id}
+        renderItem={renderRecipeItem}
       />
     </View>
   );

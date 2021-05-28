@@ -13,7 +13,7 @@ import api from "../api/api";
 import * as ImagePicker from "expo-image-picker";
 
 const AddCategory = ({ navigation }) => {
-  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
   const [enteredTitle, setEnteredTitle] = useState("");
 
   // Image Control
@@ -40,7 +40,7 @@ const AddCategory = ({ navigation }) => {
     console.log(result);
 
     if (!result.cancelled) {
-      setImage(result.uri);
+      setImageUrl(result.uri);
     }
   };
 
@@ -51,7 +51,7 @@ const AddCategory = ({ navigation }) => {
     } else {
       api
         .post("/categories", {
-          image: image,
+          imageUrl: imageUrl,
           title: enteredTitle,
         })
         .then(({ data }) => {
@@ -75,7 +75,7 @@ const AddCategory = ({ navigation }) => {
         Photos
       </Text>
       <View style={{ alignItems: "center", marginTop: 5 }}>
-        {image === null ? (
+        {imageUrl === null ? (
           <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
             <Ionicons
               name="add-outline"
@@ -84,7 +84,10 @@ const AddCategory = ({ navigation }) => {
             />
           </TouchableOpacity>
         ) : (
-          <Image style={{ width: 150, height: 150 }} source={{ uri: image }} />
+          <Image
+            style={{ width: 150, height: 150 }}
+            source={{ uri: imageUrl }}
+          />
         )}
       </View>
       {/* Title */}
