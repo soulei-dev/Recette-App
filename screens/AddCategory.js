@@ -1,26 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   StyleSheet,
   View,
   TouchableOpacity,
   TextInput,
+  Image,
 } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import api from "../api/api";
+import * as ImagePicker from "expo-image-picker";
 
-const AddCategory = () => {
-  // const [image, setImage] = useState("");
+const AddCategory = ({ navigation }) => {
+  const [image, setImage] = useState(null);
   const [enteredTitle, setEnteredTitle] = useState("");
 
+  // Image Control
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== "web") {
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== "granted") {
+          alert("Désolé, nous avons besoin des autorisations de la caméra !");
+        }
+      }
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
+  // Title Control
   const createNewCategory = () => {
     if (enteredTitle === "") {
       return;
     } else {
       api
         .post("/categories", {
-          // image: image,
+          image: image,
           title: enteredTitle,
         })
         .then(({ data }) => {
@@ -33,6 +64,7 @@ const AddCategory = () => {
 
   return (
     <View style={styles.screen}>
+      {/* Image */}
       <Text
         style={{
           marginLeft: 120,
@@ -43,13 +75,19 @@ const AddCategory = () => {
         Photos
       </Text>
       <View style={{ alignItems: "center", marginTop: 5 }}>
-        <TouchableOpacity
-          style={styles.imageContainer}
-          onPress={() => alert("Picker")}
-        >
-          <Ionicons name="add-outline" size={70} color={Colors.primaryColor} />
-        </TouchableOpacity>
+        {image === null ? (
+          <TouchableOpacity style={styles.imageContainer} onPress={pickImage}>
+            <Ionicons
+              name="add-outline"
+              size={70}
+              color={Colors.primaryColor}
+            />
+          </TouchableOpacity>
+        ) : (
+          <Image style={{ width: 150, height: 150 }} source={{ uri: image }} />
+        )}
       </View>
+      {/* Title */}
       <Text
         style={{
           marginLeft: 20,
@@ -73,7 +111,13 @@ const AddCategory = () => {
           onChangeText={(enteredTitle) => setEnteredTitle(enteredTitle)}
           value={enteredTitle}
         />
-        <TouchableOpacity onPress={createNewCategory}>
+        {/* Send Button */}
+        <TouchableOpacity
+          onPress={() => {
+            createNewCategory();
+            navigation.navigate("Categories");
+          }}
+        >
           <MaterialIcons
             name="add-circle"
             size={42}
@@ -93,6 +137,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 150,
     height: 150,
+    borderRadius: 10,
     borderWidth: 1,
     borderColor: Colors.primaryColor,
     borderStyle: "dashed",
