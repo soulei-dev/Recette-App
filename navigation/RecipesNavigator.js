@@ -1,7 +1,8 @@
 import React from "react";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { MaterialIcons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import Categories from "../screens/Categories";
 import Filters from "../screens/Filters";
@@ -10,7 +11,7 @@ import CategoryRecipes from "../screens/CategoryRecipes";
 import RecipeDetail from "../screens/RecipeDetail";
 import AddCategory from "../screens/AddCategory";
 
-const Tabs = createBottomTabNavigator();
+const Tabs = createMaterialBottomTabNavigator();
 const CategoriesStack = createStackNavigator();
 const FiltersStack = createStackNavigator();
 const FavoritesStack = createStackNavigator();
@@ -63,10 +64,41 @@ const MyTheme = {
 export default function RecipesNavigator() {
   return (
     <NavigationContainer theme={MyTheme}>
-      <Tabs.Navigator tabBarOptions={{ activeTintColor: Colors.primaryColor }}>
-        <Tabs.Screen name="Home" component={CategoriesStackScreen} />
-        <Tabs.Screen name="Filtrer" component={FiltersStackScreen} />
-        <Tabs.Screen name="Favoris" component={FavoritesStackScreen} />
+      <Tabs.Navigator
+        activeColor={Colors.primaryColor}
+        barStyle={{ backgroundColor: "#FFF", height: 70 }}
+        inactiveColor="#4a4a4a"
+      >
+        <Tabs.Screen
+          name="Categories"
+          options={{
+            tabBarLabel: "Menu",
+            tabBarIcon: ({ color }) => (
+              <MaterialIcons name="menu-book" size={26} color={color} />
+            ),
+          }}
+          component={CategoriesStackScreen}
+        />
+        <Tabs.Screen
+          name="Filter"
+          options={{
+            tabBarLabel: "Filtre",
+            tabBarIcon: ({ color }) => (
+              <MaterialIcons name="filter-alt" size={26} color={color} />
+            ),
+          }}
+          component={FiltersStackScreen}
+        />
+        <Tabs.Screen
+          name="Favorite"
+          options={{
+            tabBarLabel: "Favoris",
+            tabBarIcon: ({ color }) => (
+              <MaterialIcons name="favorite-outline" size={26} color={color} />
+            ),
+          }}
+          component={FavoritesStackScreen}
+        />
       </Tabs.Navigator>
     </NavigationContainer>
   );
