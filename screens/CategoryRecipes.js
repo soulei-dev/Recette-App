@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, Text, FlatList } from "react-native";
 import { CATEGORIES, RECIPES } from "../data/fake-data";
+import RecipeItem from "../components/RecipeItem";
 
 const CategoryRecipes = ({ route, navigation }) => {
   const { categoryId } = route.params;
@@ -15,9 +16,12 @@ const CategoryRecipes = ({ route, navigation }) => {
 
   const renderRecipeItem = (itemData) => {
     return (
-      <View>
-        <Text>{itemData.item.name}</Text>
-      </View>
+      <RecipeItem
+        name={itemData.item.name}
+        onSelectRecipe={() => {}}
+        duration={itemData.item.duration}
+        imageUrl={itemData.item.imageUrl}
+      />
     );
   };
 
@@ -27,6 +31,7 @@ const CategoryRecipes = ({ route, navigation }) => {
         data={displayRecipes}
         keyExtractor={(item, index) => item.id}
         renderItem={renderRecipeItem}
+        style={{ width: "90%" }}
       />
     </View>
   );
