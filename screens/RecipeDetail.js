@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
+import { RECIPES } from "../data/fake-data";
 
-const RecipeDetail = () => {
+const RecipeDetail = ({ route, navigation }) => {
+  const { recipeId } = route.params;
+  const selectedRecipe = RECIPES.find((recipe) => recipe.id === recipeId);
+
+  useEffect(() => {
+    navigation.setOptions({ title: selectedRecipe.name });
+  });
+
   return (
     <View style={styles.screen}>
-      <Text>Ecran du détail de la recette !</Text>
+      <Text>{selectedRecipe.name}</Text>
     </View>
   );
 };

@@ -18,9 +18,13 @@ const CategoryRecipes = ({ route, navigation }) => {
     return (
       <RecipeItem
         name={itemData.item.name}
-        onSelectRecipe={() => {}}
         duration={itemData.item.duration}
         imageUrl={itemData.item.imageUrl}
+        onSelectRecipe={() => {
+          navigation.navigate("RecipeDetail", {
+            recipeId: itemData.item.id,
+          });
+        }}
       />
     );
   };
