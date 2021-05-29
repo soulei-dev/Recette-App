@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, Text, FlatList } from "react-native";
+import { StyleSheet, View, FlatList, TouchableOpacity } from "react-native";
 import { CATEGORIES, RECIPES } from "../data/fake-data";
 import RecipeItem from "../components/RecipeItem";
+import Colors from "../constants/Colors";
+import { Entypo } from "@expo/vector-icons";
 
 const CategoryRecipes = ({ route, navigation }) => {
   const { categoryId } = route.params;
@@ -37,6 +39,14 @@ const CategoryRecipes = ({ route, navigation }) => {
         renderItem={renderRecipeItem}
         style={{ width: "90%" }}
       />
+      <TouchableOpacity
+        style={styles.floatingActionButton}
+        onPress={() => {
+          navigation.navigate("AddRecipe");
+        }}
+      >
+        <Entypo name="plus" color="white" size={20} />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -44,6 +54,17 @@ const CategoryRecipes = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  floatingActionButton: {
+    backgroundColor: Colors.primaryColor,
+    width: 45,
+    height: 45,
+    position: "absolute",
+    bottom: 15,
+    right: 10,
+    borderRadius: 100,
     justifyContent: "center",
     alignItems: "center",
   },

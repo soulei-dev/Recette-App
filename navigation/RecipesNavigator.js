@@ -10,6 +10,7 @@ import Favorites from "../screens/Favorites";
 import CategoryRecipes from "../screens/CategoryRecipes";
 import RecipeDetail from "../screens/RecipeDetail";
 import AddCategory from "../screens/AddCategory";
+import AddRecipe from "../screens/AddRecipe";
 
 const Tabs = createMaterialBottomTabNavigator();
 const CategoriesStack = createStackNavigator();
@@ -37,6 +38,11 @@ const CategoriesStackScreen = () => (
       name="AddCategory"
       component={AddCategory}
       options={{ title: "Ajouter une catégorie" }}
+    />
+    <CategoriesStack.Screen
+      name="AddRecipe"
+      component={AddRecipe}
+      options={{ title: "Ajouter une nouvelle recette" }}
     />
   </CategoriesStack.Navigator>
 );
