@@ -44,10 +44,10 @@ const AddCategory = ({ navigation }) => {
     }
   };
 
-  // Title Control
+  // Send Control
   const createNewCategory = () => {
-    if (enteredTitle === "") {
-      return;
+    if (enteredTitle === "" || imageUrl === null) {
+      return null;
     } else {
       api
         .post("/categories", {
@@ -57,6 +57,7 @@ const AddCategory = ({ navigation }) => {
         .then(({ data }) => {
           console.log(data);
           setEnteredTitle("");
+          navigation.navigate("Categories");
         })
         .catch((error) => console.log(error));
     }
@@ -118,7 +119,6 @@ const AddCategory = ({ navigation }) => {
         <TouchableOpacity
           onPress={() => {
             createNewCategory();
-            navigation.navigate("Categories");
           }}
         >
           <MaterialIcons
