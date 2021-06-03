@@ -52,7 +52,7 @@ const ImagePickerComponent = ({ label }) => {
           </View>
         ) : (
           <Image
-            style={{ width: 150, height: 150 }}
+            style={{ width: "90%", height: 200, borderRadius: 10 }}
             source={{ uri: imageUrl }}
           />
         )}

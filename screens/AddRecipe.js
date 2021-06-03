@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import api from "../api/api";
-import { MaterialIcons } from "@expo/vector-icons";
-import Colors from "../constants/Colors";
 import Input from "../components/Input";
 import ImagePickerComponent from "../components/ImagePickerComponent";
+import AmountInput from "../components/AmountInput";
+import AddButton from "../components/AddButton";
 
-const AddRecipe = () => {
+const AddRecipe = ({ imageUrl, navigation }) => {
   const [enteredName, setEnteredName] = useState("");
   const [duration, setDuration] = useState(0);
   const [ingredients, setIngredients] = useState("");
@@ -15,7 +15,7 @@ const AddRecipe = () => {
 
   // Send Control
   const createNewRecipe = () => {
-    if (enteredName === "") {
+    if (enteredName === "" || imageUrl === null) {
       return;
     } else {
       api
@@ -30,6 +30,7 @@ const AddRecipe = () => {
         .then(({ data }) => {
           console.log(data);
           setEnteredName("");
+          navigation.navigate("CategoryRecipes");
         })
         .catch((error) => console.log(error));
     }
@@ -40,42 +41,34 @@ const AddRecipe = () => {
       {/* Image */}
       <ImagePickerComponent label="Photos" />
       {/* Name */}
-      <Text
-        style={{
-          marginLeft: 20,
-          fontSize: 20,
-          marginTop: 40,
-          fontFamily: "Montserrat-Regular",
-        }}
-      >
-        Nom
-      </Text>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-around",
-          alignItems: "flex-end",
-        }}
-      >
+      <Text style={styles.titleStyle}>Nom</Text>
+      <View style={styles.inputContainer}>
         <Input
           placeholder="Macaron"
           onChangeText={(enteredName) => setEnteredName(enteredName)}
           value={enteredName}
         />
-        {/* Send Button */}
-        <TouchableOpacity
-          onPress={() => {
-            createNewCategory();
-            navigation.navigate("Categories");
-          }}
-        >
-          <MaterialIcons
-            name="add-circle"
-            size={42}
-            color={Colors.primaryColor}
-          />
-        </TouchableOpacity>
+        <AmountInput placeholder="Durée" />
       </View>
+      {/* Ingredients input */}
+      <Text style={styles.titleStyle}>Ingrédients</Text>
+      <View style={styles.inputContainer}>
+        <AmountInput placeholder="Quantité" />
+        <Input placeholder="Ingrédient 1" />
+      </View>
+      <View style={styles.inputContainer}>
+        <AmountInput placeholder="Quantité" />
+        <Input placeholder="Ingrédient 2" />
+      </View>
+      {/* Add ingredient */}
+      <AddButton label="Ajouter ingrédient" />
+      {/* Recipe steps */}
+      <Text style={styles.titleStyle}>Recette</Text>
+      <View style={styles.inputContainer}>
+        <AmountInput placeholder="Étape 1" />
+        <Input placeholder="Description" />
+      </View>
+      <AddButton label="Nouvelle étape" />
     </View>
   );
 };
@@ -83,6 +76,16 @@ const AddRecipe = () => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
+  },
+  titleStyle: {
+    marginLeft: 10,
+    fontSize: 20,
+    marginTop: 20,
+    fontFamily: "Montserrat-Regular",
+  },
+  inputContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });
 

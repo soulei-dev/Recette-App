@@ -1,13 +1,12 @@
 import React from "react";
-import { StyleSheet, TextInput } from "react-native";
+import { TextInput, StyleSheet } from "react-native";
 
-const Input = ({ onChangeText, value, placeholder }) => {
+const AmountInput = ({ placeholder, value, onChangeText }) => {
   const { inputStyle } = styles;
-
   return (
     <TextInput
-      placeholder={placeholder}
       style={inputStyle}
+      placeholder={placeholder}
       value={value}
       onChangeText={onChangeText}
     />
@@ -16,7 +15,7 @@ const Input = ({ onChangeText, value, placeholder }) => {
 
 const styles = StyleSheet.create({
   inputStyle: {
-    width: "70%",
+    width: "20%",
     borderWidth: 1,
     borderRadius: 50,
     borderColor: "#C7C7C7",
@@ -25,4 +24,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Input;
+export default AmountInput;
