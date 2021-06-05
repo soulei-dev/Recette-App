@@ -3,11 +3,11 @@ import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 
-const AddButton = ({ label }) => {
+const AddButton = ({ label, onPress }) => {
   const { container, buttonContainer, labelStyle } = styles;
   return (
     <View style={container}>
-      <TouchableOpacity style={buttonContainer}>
+      <TouchableOpacity style={buttonContainer} onPress={onPress}>
         <Ionicons name="add" size={20} color={Colors.primaryColor} />
         <Text style={labelStyle}>{label}</Text>
       </TouchableOpacity>
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    width: 200,
+    width: 180,
   },
   labelStyle: {
     fontFamily: "Montserrat-Regular",

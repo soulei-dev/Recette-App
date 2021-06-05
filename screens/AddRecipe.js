@@ -8,14 +8,90 @@ import AddButton from "../components/AddButton";
 
 const AddRecipe = ({ imageUrl, navigation }) => {
   const [enteredName, setEnteredName] = useState("");
-  const [duration, setDuration] = useState(0);
-  const [ingredients, setIngredients] = useState("");
-  const [steps, setSteps] = useState("");
-  const [amount, setAmount] = useState(0);
+  const [duration, setDuration] = useState([]);
+  const [inputIngredients, setInputIngredients] = useState([]);
+  const [steps, setSteps] = useState([]);
+  const [textInput, setTextInput] = useState([]);
+
+  const addTextInput = (index) => {
+    let inputs = [...textInput];
+    inputs.push(
+      <View key={index} style={styles.inputContainer}>
+        <AmountInput
+          placeholder="Quantité"
+          onChangeText={(quantity) => addQuantitys(quantity, index)}
+        />
+        <Input
+          placeholder="Ingrédient"
+          onChangeText={(ingredients) => addIngredients(ingredients, index)}
+        />
+      </View>
+    );
+    setTextInput(inputs);
+  };
+
+  const addQuantitys = (quantity, index) => {
+    let dataArray = inputIngredients;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.quantity = quantity;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      setInputIngredients(dataArray);
+    } else {
+      dataArray.push({
+        quantity: quantity,
+        index: index,
+      });
+      setInputIngredients(dataArray);
+    }
+  };
+
+  const addIngredients = (ingredients, index) => {
+    let dataArray = inputIngredients;
+    let checkBool = false;
+    if (dataArray.length !== 0) {
+      dataArray.forEach((element) => {
+        if (element.index === index) {
+          element.ingredients = ingredients;
+          checkBool = true;
+        }
+      });
+    }
+    if (checkBool) {
+      setInputIngredients(dataArray);
+    } else {
+      dataArray.push({
+        ingredients: ingredients,
+        index: index,
+      });
+      setInputIngredients(dataArray);
+    }
+  };
+
+  const getValue = () => {
+    inputIngredients.filter((obj) => {
+      return console.log(
+        "Ingrédients: " + obj.ingredients,
+        "Quantités: " + obj.quantity
+      );
+    });
+  };
 
   // Send Control
   const createNewRecipe = () => {
-    if (enteredName === "" || imageUrl === null) {
+    if (
+      enteredName === "" ||
+      imageUrl === null ||
+      duration === 0 ||
+      inputIngredients.length === 0 ||
+      steps === ""
+    ) {
       return;
     } else {
       api
@@ -25,7 +101,7 @@ const AddRecipe = ({ imageUrl, navigation }) => {
           duration: duration,
           ingredients: ingredients,
           steps: steps,
-          amount: amount,
+          quantity: quantity,
         })
         .then(({ data }) => {
           console.log(data);
@@ -48,27 +124,28 @@ const AddRecipe = ({ imageUrl, navigation }) => {
           onChangeText={(enteredName) => setEnteredName(enteredName)}
           value={enteredName}
         />
-        <AmountInput placeholder="Durée" />
+        <AmountInput
+          placeholder="Durée"
+          onChangeText={(duration) => setDuration(duration)}
+        />
       </View>
       {/* Ingredients input */}
       <Text style={styles.titleStyle}>Ingrédients</Text>
-      <View style={styles.inputContainer}>
-        <AmountInput placeholder="Quantité" />
-        <Input placeholder="Ingrédient 1" />
-      </View>
-      <View style={styles.inputContainer}>
-        <AmountInput placeholder="Quantité" />
-        <Input placeholder="Ingrédient 2" />
-      </View>
+      {textInput.map((el) => {
+        return el;
+      })}
       {/* Add ingredient */}
-      <AddButton label="Ajouter ingrédient" />
+      <AddButton
+        label="Ajouter ingrédient"
+        onPress={() => addTextInput(textInput.length)}
+      />
       {/* Recipe steps */}
       <Text style={styles.titleStyle}>Recette</Text>
       <View style={styles.inputContainer}>
         <AmountInput placeholder="Étape 1" />
         <Input placeholder="Description" />
       </View>
-      <AddButton label="Nouvelle étape" />
+      <AddButton label="Nouvelle étape" onPress={() => getValue()} />
     </View>
   );
 };
@@ -90,3 +167,20 @@ const styles = StyleSheet.create({
 });
 
 export default AddRecipe;
+
+{
+  /* <View style={styles.inputContainer}>
+        <AmountInput
+          placeholder="Quantité"
+          onChangeText={(quantity) => {
+            setQuantity(quantity);
+          }}
+        />
+        <Input
+          placeholder="Ingrédient"
+          onChangeText={(ingredients) => {
+            setIngredients(ingredients);
+          }}
+        />
+      </View> */
+}
