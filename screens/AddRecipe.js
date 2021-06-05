@@ -13,6 +13,7 @@ const AddRecipe = ({ imageUrl, navigation }) => {
   const [steps, setSteps] = useState([]);
   const [textInput, setTextInput] = useState([]);
 
+  // Function to add TextInput dynamically
   const addTextInput = (index) => {
     let inputs = [...textInput];
     inputs.push(
@@ -30,6 +31,7 @@ const AddRecipe = ({ imageUrl, navigation }) => {
     setTextInput(inputs);
   };
 
+  //   Functions to add quantity and ingredients into single array.
   const addQuantitys = (quantity, index) => {
     let dataArray = inputIngredients;
     let checkBool = false;
@@ -74,7 +76,8 @@ const AddRecipe = ({ imageUrl, navigation }) => {
     }
   };
 
-  const getValue = () => {
+  //   Function to console output
+  const getValues = () => {
     inputIngredients.filter((obj) => {
       return console.log(
         "Ingrédients: " + obj.ingredients,
@@ -83,7 +86,7 @@ const AddRecipe = ({ imageUrl, navigation }) => {
     });
   };
 
-  // Send Control
+  // Send control
   const createNewRecipe = () => {
     if (
       enteredName === "" ||
@@ -99,9 +102,8 @@ const AddRecipe = ({ imageUrl, navigation }) => {
           imageUrl: imageUrl,
           name: enteredName,
           duration: duration,
-          ingredients: ingredients,
           steps: steps,
-          quantity: quantity,
+          inputIngredients: inputIngredients,
         })
         .then(({ data }) => {
           console.log(data);
@@ -145,7 +147,7 @@ const AddRecipe = ({ imageUrl, navigation }) => {
         <AmountInput placeholder="Étape 1" />
         <Input placeholder="Description" />
       </View>
-      <AddButton label="Nouvelle étape" onPress={() => getValue()} />
+      <AddButton label="Nouvelle étape" onPress={() => getValues()} />
     </View>
   );
 };
