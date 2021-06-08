@@ -1,13 +1,43 @@
-import React, { useState } from "react";
-import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Text, StyleSheet, View, TouchableOpacity, Image } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import api from "../api/api";
 import Input from "../components/Input";
 import ImagePickerComponent from "../components/ImagePickerComponent";
+import * as ImagePicker from "expo-image-picker";
 
-const AddCategory = ({ navigation, imageUrl }) => {
+const AddCategory = ({ navigation }) => {
+  const [imageUrl, setImageUrl] = useState(null);
   const [enteredTitle, setEnteredTitle] = useState("");
+
+  // Image Control
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== "web") {
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== "granted") {
+          alert("Désolé, nous avons besoin des autorisations de la caméra !");
+        }
+      }
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImageUrl(result.uri);
+    }
+  };
 
   // Send Control
   const createNewCategory = () => {
@@ -22,7 +52,7 @@ const AddCategory = ({ navigation, imageUrl }) => {
         .then(({ data }) => {
           console.log(data);
           setEnteredTitle("");
-          navigation.navigate("Categories");
+          navigation.goBack();
         })
         .catch((error) => console.log(error));
     }
@@ -31,9 +61,18 @@ const AddCategory = ({ navigation, imageUrl }) => {
   return (
     <View style={styles.screen}>
       {/* Image */}
-      <View>
-        <ImagePickerComponent label="Photos" />
-      </View>
+      {imageUrl === null ? (
+        <View>
+          <ImagePickerComponent label="Photos" onPress={pickImage} />
+        </View>
+      ) : (
+        <View style={{ alignItems: "center" }}>
+          <Image
+            style={{ width: "90%", height: 150, borderRadius: 10 }}
+            source={{ uri: imageUrl }}
+          />
+        </View>
+      )}
 
       {/* Title */}
       <Text
@@ -50,7 +89,7 @@ const AddCategory = ({ navigation, imageUrl }) => {
         style={{
           flexDirection: "row",
           justifyContent: "space-around",
-          alignItems: "flex-end",
+          alignItems: "center",
         }}
       >
         <Input

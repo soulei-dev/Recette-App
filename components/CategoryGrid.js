@@ -14,7 +14,7 @@ const CategoryGrid = ({ title, onSelect, image }) => {
         <ImageBackground
           imageStyle={{ borderRadius: 10 }}
           style={styles.imageContainer}
-          source={image}
+          source={{ uri: image }}
         >
           <Text style={styles.titleStyle}>{title}</Text>
         </ImageBackground>
