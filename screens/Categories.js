@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Text,
 } from "react-native";
-import { CATEGORIES } from "../data/fake-data";
 import api from "../api/api";
 import CategoryGrid from "../components/CategoryGrid";
 import { MaterialIcons } from "@expo/vector-icons";

@@ -1,20 +1,57 @@
-import React, { useEffect } from "react";
-import { StyleSheet, View, FlatList, TouchableOpacity } from "react-native";
-import { CATEGORIES, RECIPES } from "../data/fake-data";
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  TouchableOpacity,
+  Text,
+} from "react-native";
+import api from "../api/api";
 import RecipeItem from "../components/RecipeItem";
 import Colors from "../constants/Colors";
 import { Entypo } from "@expo/vector-icons";
 
 const CategoryRecipes = ({ route, navigation }) => {
+  const [dataCategories, setDataCategories] = useState([]);
+  const [dataRecipes, setDataRecipes] = useState([]);
+  const [isLoading, setLoading] = useState(true);
   const { categoryId } = route.params;
-  const selectedCategory = CATEGORIES.find((cat) => cat.id === categoryId);
-  const displayRecipes = RECIPES.filter(
+  const selectedCategory = dataCategories.find((cat) => cat.id === categoryId);
+  const displayRecipes = dataRecipes.filter(
     (recipe) => recipe.categoryIds.indexOf(categoryId) >= 0
   );
 
   useEffect(() => {
     navigation.setOptions({ title: selectedCategory.title });
   });
+
+  useEffect(() => {
+    navigation.addListener("focus", async () => {
+      api
+        .get("/categories")
+        .then(({ data }) => {
+          data.filter((obj) => {
+            console.log(obj);
+            setDataCategories(data);
+          });
+        })
+        .catch((error) => console.error(error))
+        .finally(() => setLoading(false));
+    });
+  }, []);
+
+  useEffect(() => {
+    api
+      .get("/recipes")
+      .then(({ data }) => {
+        data.filter((obj) => {
+          console.log(obj);
+          setDataRecipes(data);
+        });
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, []);
 
   const renderRecipeItem = (itemData) => {
     return (
@@ -33,20 +70,26 @@ const CategoryRecipes = ({ route, navigation }) => {
 
   return (
     <View style={styles.screen}>
-      <FlatList
-        data={displayRecipes}
-        keyExtractor={(item, index) => item.id}
-        renderItem={renderRecipeItem}
-        style={{ width: "90%" }}
-      />
-      <TouchableOpacity
-        style={styles.floatingActionButton}
-        onPress={() => {
-          navigation.navigate("AddRecipe");
-        }}
-      >
-        <Entypo name="plus" color="white" size={20} />
-      </TouchableOpacity>
+      {isLoading ? (
+        <Text>Loading...</Text>
+      ) : (
+        <>
+          <FlatList
+            data={displayRecipes}
+            keyExtractor={(item, index) => item.id}
+            renderItem={renderRecipeItem}
+            style={{ width: "90%" }}
+          />
+          <TouchableOpacity
+            style={styles.floatingActionButton}
+            onPress={() => {
+              navigation.navigate("AddRecipe");
+            }}
+          >
+            <Entypo name="plus" color="white" size={20} />
+          </TouchableOpacity>
+        </>
+      )}
     </View>
   );
 };
