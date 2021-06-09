@@ -13,8 +13,10 @@ import ImagePickerComponent from "../components/ImagePickerComponent";
 import AmountInput from "../components/AmountInput";
 import * as ImagePicker from "expo-image-picker";
 import AddButton from "../components/AddButton";
+import uuid from "uuid/v4";
 
-const AddRecipe = ({ navigation }) => {
+const AddRecipe = ({ navigation, route }) => {
+  const { catId } = route.params;
   const [imageUrl, setImageUrl] = useState(null);
   const [enteredName, setEnteredName] = useState("");
   const [duration, setDuration] = useState("");
@@ -180,19 +182,13 @@ const AddRecipe = ({ navigation }) => {
   //   Function to console output
   const getValuesIngredient = () => {
     inputIngredients.filter((obj) => {
-      return console.log(
-        "Ingrédients: " + obj.ingredients,
-        "Quantités: " + obj.quantity
-      );
+      return obj;
     });
   };
 
   const getValuesRecipe = () => {
     inputRecipes.filter((obj) => {
-      return console.log(
-        "Step: " + obj.step,
-        "description: " + obj.description
-      );
+      return obj;
     });
   };
 
@@ -212,12 +208,13 @@ const AddRecipe = ({ navigation }) => {
           imageUrl: imageUrl,
           name: enteredName,
           duration: duration,
-          inputRecipes: inputRecipes,
-          inputIngredients: inputIngredients,
+          inputRecipes: getValuesRecipe(),
+          inputIngredients: getValuesIngredient(),
+          categoryIds: catId,
         })
         .then(({ data }) => {
           console.log(data);
-          navigation.navigate("CategoryRecipes");
+          navigation.goBack();
         })
         .catch((error) => console.log(error));
     }

@@ -38,6 +38,7 @@ const Categories = ({ navigation }) => {
         onSelect={() => {
           navigation.navigate("CategoryRecipes", {
             categoryId: itemData.item.id,
+            data: data,
           });
         }}
       />

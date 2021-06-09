@@ -51,7 +51,6 @@ const AddCategory = ({ navigation }) => {
         })
         .then(({ data }) => {
           console.log(data);
-          setEnteredTitle("");
           navigation.goBack();
         })
         .catch((error) => console.log(error));

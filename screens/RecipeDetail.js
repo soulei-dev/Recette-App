@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { RECIPES } from "../data/fake-data";
 
 const RecipeDetail = ({ route, navigation }) => {
-  const { recipeId } = route.params;
-  const selectedRecipe = RECIPES.find((recipe) => recipe.id === recipeId);
+  const { recipeId, data } = route.params;
+  const selectedRecipe = data.find((recipe) => recipe.id === recipeId);
 
   useEffect(() => {
     navigation.setOptions({ title: selectedRecipe.name });

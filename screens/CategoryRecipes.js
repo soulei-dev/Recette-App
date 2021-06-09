@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -12,14 +12,14 @@ import Colors from "../constants/Colors";
 import { Entypo } from "@expo/vector-icons";
 
 const CategoryRecipes = ({ route, navigation }) => {
-  const [dataCategories, setDataCategories] = useState([]);
   const [dataRecipes, setDataRecipes] = useState([]);
-  const [isLoading, setLoading] = useState(true);
-  const { categoryId } = route.params;
-  const selectedCategory = dataCategories.find((cat) => cat.id === categoryId);
-  const displayRecipes = dataRecipes.filter(
-    (recipe) => recipe.categoryIds.indexOf(categoryId) >= 0
-  );
+  //   const [isLoading, setLoading] = useState(true);
+  const { categoryId, data } = route.params;
+  const selectedCategory = data.find((cat) => cat.id === categoryId);
+  const displayRecipes = dataRecipes.filter((recipe) => {
+    return recipe.categoryIds.toString().indexOf(categoryId) >= 0;
+  });
+  console.log("--DISPLAY RECIPES-- : " + displayRecipes);
 
   useEffect(() => {
     navigation.setOptions({ title: selectedCategory.title });
@@ -28,29 +28,15 @@ const CategoryRecipes = ({ route, navigation }) => {
   useEffect(() => {
     navigation.addListener("focus", async () => {
       api
-        .get("/categories")
+        .get("/recipes")
         .then(({ data }) => {
           data.filter((obj) => {
             console.log(obj);
-            setDataCategories(data);
+            setDataRecipes(data);
           });
         })
-        .catch((error) => console.error(error))
-        .finally(() => setLoading(false));
+        .catch((error) => console.error(error));
     });
-  }, []);
-
-  useEffect(() => {
-    api
-      .get("/recipes")
-      .then(({ data }) => {
-        data.filter((obj) => {
-          console.log(obj);
-          setDataRecipes(data);
-        });
-      })
-      .catch((error) => console.error(error))
-      .finally(() => setLoading(false));
   }, []);
 
   const renderRecipeItem = (itemData) => {
@@ -62,6 +48,7 @@ const CategoryRecipes = ({ route, navigation }) => {
         onSelectRecipe={() => {
           navigation.navigate("RecipeDetail", {
             recipeId: itemData.item.id,
+            data: data,
           });
         }}
       />
@@ -70,26 +57,24 @@ const CategoryRecipes = ({ route, navigation }) => {
 
   return (
     <View style={styles.screen}>
-      {isLoading ? (
-        <Text>Loading...</Text>
-      ) : (
-        <>
-          <FlatList
-            data={displayRecipes}
-            keyExtractor={(item, index) => item.id}
-            renderItem={renderRecipeItem}
-            style={{ width: "90%" }}
-          />
-          <TouchableOpacity
-            style={styles.floatingActionButton}
-            onPress={() => {
-              navigation.navigate("AddRecipe");
-            }}
-          >
-            <Entypo name="plus" color="white" size={20} />
-          </TouchableOpacity>
-        </>
-      )}
+      <>
+        <FlatList
+          data={displayRecipes}
+          keyExtractor={(item, index) => item.toString()}
+          renderItem={renderRecipeItem}
+          style={{ width: "90%" }}
+        />
+        <TouchableOpacity
+          style={styles.floatingActionButton}
+          onPress={() => {
+            navigation.navigate("AddRecipe", {
+              catId: categoryId,
+            });
+          }}
+        >
+          <Entypo name="plus" color="white" size={20} />
+        </TouchableOpacity>
+      </>
     </View>
   );
 };
