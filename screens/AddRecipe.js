@@ -208,8 +208,8 @@ const AddRecipe = ({ navigation, route }) => {
           imageUrl: imageUrl,
           name: enteredName,
           duration: duration,
-          inputRecipes: getValuesRecipe(),
-          inputIngredients: getValuesIngredient(),
+          inputRecipes: inputRecipes,
+          inputIngredients: inputIngredients,
           categoryIds: catId,
         })
         .then(({ data }) => {

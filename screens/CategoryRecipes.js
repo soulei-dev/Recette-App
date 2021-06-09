@@ -48,7 +48,7 @@ const CategoryRecipes = ({ route, navigation }) => {
         onSelectRecipe={() => {
           navigation.navigate("RecipeDetail", {
             recipeId: itemData.item.id,
-            data: data,
+            data: dataRecipes,
           });
         }}
       />
@@ -60,7 +60,7 @@ const CategoryRecipes = ({ route, navigation }) => {
       <>
         <FlatList
           data={displayRecipes}
-          keyExtractor={(item, index) => item.toString()}
+          keyExtractor={(item, index) => index.toString()}
           renderItem={renderRecipeItem}
           style={{ width: "90%" }}
         />
