@@ -179,19 +179,6 @@ const AddRecipe = ({ navigation, route }) => {
     }
   };
 
-  //   Function to console output
-  const getValuesIngredient = () => {
-    inputIngredients.filter((obj) => {
-      return obj;
-    });
-  };
-
-  const getValuesRecipe = () => {
-    inputRecipes.filter((obj) => {
-      return obj;
-    });
-  };
-
   // Send control
   const createNewRecipe = () => {
     if (
