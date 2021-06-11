@@ -12,14 +12,12 @@ const RecipeItem = ({ onSelectRecipe, name, duration, imageUrl }) => {
     <View style={styles.recipeItem}>
       <TouchableOpacity onPress={onSelectRecipe}>
         <View>
-          <View>
-            <ImageBackground source={{ uri: imageUrl }} style={styles.bgImage}>
-              <View style={styles.titleContainer}>
-                <Text style={styles.title}>{name}</Text>
-                <Text style={styles.recipeDuration}>{duration} minutes</Text>
-              </View>
-            </ImageBackground>
-          </View>
+          <ImageBackground source={{ uri: imageUrl }} style={styles.bgImage}>
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>{name}</Text>
+              <Text style={styles.recipeDuration}>{duration} minutes</Text>
+            </View>
+          </ImageBackground>
         </View>
       </TouchableOpacity>
     </View>
