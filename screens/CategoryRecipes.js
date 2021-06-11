@@ -1,11 +1,5 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  TouchableOpacity,
-  Text,
-} from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, View, FlatList, TouchableOpacity } from "react-native";
 import api from "../api/api";
 import RecipeItem from "../components/RecipeItem";
 import Colors from "../constants/Colors";

@@ -1,12 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  FlatList,
-  ImageBackground,
-} from "react-native";
+import { StyleSheet, View, Text, ImageBackground } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 
@@ -18,9 +11,6 @@ const RecipeDetail = ({ route, navigation }) => {
   );
   const recipes = selectedRecipe.inputRecipes.map((ingredient) => ingredient);
   const { imageUrl, name, duration } = selectedRecipe;
-  //   console.log(recipes);
-  console.log("--INGREDIENT-- : " + ingredients);
-  console.log(imageUrl);
 
   useEffect(() => {
     navigation.setOptions({ title: selectedRecipe.name });
@@ -29,10 +19,55 @@ const RecipeDetail = ({ route, navigation }) => {
   //   Ingredients Item
   const ingredientsItem = () => {
     return ingredients.map((item, index) => (
-      <View style={{ height: 200, margin: 3, flexBasis: "48%" }}>
-        <Text style={styles.fontText}>
-          {item.quantity} | {item.ingredients}
+      <View
+        key={index}
+        style={{
+          marginTop: 10,
+          flexBasis: "48%",
+          alignItems: "center",
+        }}
+      >
+        <Text style={{ fontFamily: "Montserrat-Regular" }}>
+          {item.quantity} {item.ingredients}
         </Text>
+      </View>
+    ));
+  };
+  // Recipe Item
+  const recipeItem = () => {
+    return recipes.map((item, index) => (
+      <View key={index}>
+        <View
+          style={{
+            padding: 5,
+            marginTop: 10,
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <View style={styles.stepStyle}>
+            <Text
+              style={{
+                fontFamily: "Montserrat-Bold",
+                textAlign: "center",
+                color: Colors.primaryColor,
+              }}
+            >
+              {item.step}
+            </Text>
+          </View>
+          <View style={{ marginLeft: 20 }}>
+            <Text style={{ fontFamily: "Montserrat-Regular" }}>
+              {item.description}
+            </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            borderBottomColor: "#e3e3e3",
+            borderBottomWidth: 1,
+          }}
+        />
       </View>
     ));
   };
@@ -68,12 +103,17 @@ const RecipeDetail = ({ route, navigation }) => {
                 color={Colors.primaryColor}
                 style={{ paddingRight: 5 }}
               />
-              <Text style={styles.fontText}>{duration} min</Text>
+              <Text style={{ fontFamily: "Montserrat-Regular" }}>
+                {duration} min
+              </Text>
             </View>
           </View>
-          {/* Ingredients and Recipe section*/}
-          <Text>Ingrédients</Text>
+          {/* Ingredients */}
+          <Text style={styles.contentTitle}>Ingrédients</Text>
           <View style={styles.ingredientItems}>{ingredientsItem()}</View>
+          {/* Recipe */}
+          <Text style={styles.contentTitle}>Recette</Text>
+          <View>{recipeItem()}</View>
         </View>
       </ImageBackground>
     </View>
@@ -83,7 +123,6 @@ const RecipeDetail = ({ route, navigation }) => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    flexDirection: "column",
   },
   title: {
     textTransform: "uppercase",
@@ -103,15 +142,31 @@ const styles = StyleSheet.create({
     width: "50%",
     height: "20%",
   },
-  fontText: {
-    fontFamily: "Montserrat-Regular",
-    paddingRight: 10,
-  },
   ingredientItems: {
-    borderWidth: 1,
     overflow: "hidden",
     flexWrap: "wrap",
     flexDirection: "row",
+  },
+  contentTitle: {
+    fontSize: 20,
+    fontFamily: "Montserrat-Regular",
+    padding: 10,
+    marginTop: 20,
+  },
+  stepStyle: {
+    margin: 5,
+    borderWidth: 1,
+    borderColor: "#ebebeb",
+    width: 30,
+    height: 30,
+    borderRadius: 30 / 2,
+    padding: 5,
+    backgroundColor: "white",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
   },
 });
 
