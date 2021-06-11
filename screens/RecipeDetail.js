@@ -1,5 +1,12 @@
 import React, { useEffect } from "react";
-import { StyleSheet, View, Text, ImageBackground } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  ImageBackground,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 
@@ -39,7 +46,6 @@ const RecipeDetail = ({ route, navigation }) => {
       <View key={index}>
         <View
           style={{
-            padding: 5,
             marginTop: 10,
             flexDirection: "row",
             alignItems: "center",
@@ -56,7 +62,7 @@ const RecipeDetail = ({ route, navigation }) => {
               {item.step}
             </Text>
           </View>
-          <View style={{ marginLeft: 20 }}>
+          <View style={{ marginLeft: 10, width: 335 }}>
             <Text style={{ fontFamily: "Montserrat-Regular" }}>
               {item.description}
             </Text>
@@ -108,12 +114,16 @@ const RecipeDetail = ({ route, navigation }) => {
               </Text>
             </View>
           </View>
-          {/* Ingredients */}
-          <Text style={styles.contentTitle}>Ingrédients</Text>
-          <View style={styles.ingredientItems}>{ingredientsItem()}</View>
-          {/* Recipe */}
-          <Text style={styles.contentTitle}>Recette</Text>
-          <View>{recipeItem()}</View>
+          <SafeAreaView style={{ marginBottom: 100 }}>
+            <ScrollView style={{ marginBottom: 100 }}>
+              {/* Ingredients */}
+              <Text style={styles.contentTitle}>Ingrédients</Text>
+              <View style={styles.ingredientItems}>{ingredientsItem()}</View>
+              {/* Recipe */}
+              <Text style={styles.contentTitle}>Recette</Text>
+              <View>{recipeItem()}</View>
+            </ScrollView>
+          </SafeAreaView>
         </View>
       </ImageBackground>
     </View>
