@@ -9,8 +9,4 @@ This cross-platform mobile application made in React Native is a graduation proj
 ```npm start or yarn start```  
 ## Back-end
 The back-end of the application has been made with a json server. In order to make it work, please install it before or configure your own server.  
-<<<<<<< HEAD
 Link of [recette-app-backend](https://github.com/soulei-dev/recette-app-backend) repository 
-=======
-Link of [recette-app-backend](https://github.com/soulei-dev/recette-app-backend) repository 
->>>>>>> abd9da15927e21ab84c64bf02a04e6713157dd5d
