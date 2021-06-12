@@ -31,7 +31,7 @@ const RecipeDetail = ({ route, navigation }) => {
             title="Favoris"
             iconName="hearto"
             onPress={() => {
-              <Item title="Favoris" iconName="heart" />;
+              console.log("--Added into Favorite screen !--");
             }}
           />
         </HeaderButtons>
