@@ -6,9 +6,12 @@ import {
   ImageBackground,
   ScrollView,
   SafeAreaView,
+  TouchableOpacity,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import HeaderButton from "../components/HeaderButton";
 
 const RecipeDetail = ({ route, navigation }) => {
   const { recipeId, data } = route.params;
@@ -20,7 +23,20 @@ const RecipeDetail = ({ route, navigation }) => {
   const { imageUrl, name, duration } = selectedRecipe;
 
   useEffect(() => {
-    navigation.setOptions({ title: selectedRecipe.name });
+    navigation.setOptions({
+      title: selectedRecipe.name,
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title="Favoris"
+            iconName="hearto"
+            onPress={() => {
+              <Item title="Favoris" iconName="heart" />;
+            }}
+          />
+        </HeaderButtons>
+      ),
+    });
   });
 
   //   Ingredients Item
