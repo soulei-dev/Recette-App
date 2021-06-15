@@ -37,38 +37,7 @@ const CategoryRecipes = ({ route, navigation }) => {
 
   return (
     <>
-      {displayRecipes.length === 0 ? (
-        <View
-          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
-          <View
-            style={{
-              width: 300,
-              height: 100,
-              borderWidth: 1,
-              justifyContent: "center",
-              borderRadius: 10,
-              backgroundColor: "white",
-              shadowColor: "black",
-              shadowOpacity: 0.2,
-              shadowOffset: { width: 0, height: 2 },
-              shadowRadius: 10,
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "Montserrat-Bold",
-                textAlign: "center",
-              }}
-            >
-              Vous n'avez pas de nouvelle recette. Cliquez sur le bouton + pour
-              en ajouter
-            </Text>
-          </View>
-        </View>
-      ) : (
-        <RecipeList listData={displayRecipes} navigation={navigation} />
-      )}
+      <RecipeList listData={displayRecipes} navigation={navigation} />
       <TouchableOpacity
         style={styles.floatingActionButton}
         onPress={() => {
