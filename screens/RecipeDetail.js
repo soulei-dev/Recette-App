@@ -6,9 +6,8 @@ import {
   ImageBackground,
   ScrollView,
   SafeAreaView,
-  TouchableOpacity,
 } from "react-native";
-import { MaterialIcons, AntDesign } from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/HeaderButton";
@@ -46,11 +45,18 @@ const RecipeDetail = ({ route, navigation }) => {
         key={index}
         style={{
           marginTop: 10,
+          marginLeft: 5,
           flexBasis: "48%",
           alignItems: "center",
+          flexDirection: "row",
         }}
       >
-        <Text style={{ fontFamily: "Montserrat-Regular" }}>
+        <MaterialCommunityIcons
+          name="silverware-spoon"
+          size={21}
+          color={Colors.primaryColor}
+        />
+        <Text style={{ paddingLeft: 10, fontFamily: "Montserrat-Regular" }}>
           {item.quantity} {item.ingredients}
         </Text>
       </View>

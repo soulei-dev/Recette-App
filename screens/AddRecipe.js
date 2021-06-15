@@ -13,7 +13,6 @@ import ImagePickerComponent from "../components/ImagePickerComponent";
 import AmountInput from "../components/AmountInput";
 import * as ImagePicker from "expo-image-picker";
 import AddButton from "../components/AddButton";
-import uuid from "uuid/v4";
 
 const AddRecipe = ({ navigation, route }) => {
   const { catId } = route.params;

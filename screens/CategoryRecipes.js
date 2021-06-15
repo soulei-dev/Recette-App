@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, FlatList, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import api from "../api/api";
-import RecipeItem from "../components/RecipeItem";
+import RecipeList from "../components/RecipeList";
 import Colors from "../constants/Colors";
 import { Entypo } from "@expo/vector-icons";
 
@@ -16,7 +16,9 @@ const CategoryRecipes = ({ route, navigation }) => {
   console.log("--DISPLAY RECIPES-- : " + displayRecipes);
 
   useEffect(() => {
-    navigation.setOptions({ title: selectedCategory.title });
+    navigation.setOptions({
+      title: selectedCategory.title,
+    });
   });
 
   useEffect(() => {
@@ -33,59 +35,62 @@ const CategoryRecipes = ({ route, navigation }) => {
     });
   }, []);
 
-  const renderRecipeItem = (itemData) => {
-    return (
-      <RecipeItem
-        name={itemData.item.name}
-        duration={itemData.item.duration}
-        imageUrl={itemData.item.imageUrl}
-        onSelectRecipe={() => {
-          navigation.navigate("RecipeDetail", {
-            recipeId: itemData.item.id,
-            data: dataRecipes,
+  return (
+    <>
+      {displayRecipes.length === 0 ? (
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <View
+            style={{
+              width: 300,
+              height: 100,
+              borderWidth: 1,
+              justifyContent: "center",
+              borderRadius: 10,
+              backgroundColor: "white",
+              shadowColor: "black",
+              shadowOpacity: 0.2,
+              shadowOffset: { width: 0, height: 2 },
+              shadowRadius: 10,
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "Montserrat-Bold",
+                textAlign: "center",
+              }}
+            >
+              Vous n'avez pas de nouvelle recette. Cliquez sur le bouton + pour
+              en ajouter
+            </Text>
+          </View>
+        </View>
+      ) : (
+        <RecipeList listData={displayRecipes} navigation={navigation} />
+      )}
+      <TouchableOpacity
+        style={styles.floatingActionButton}
+        onPress={() => {
+          navigation.navigate("AddRecipe", {
+            catId: categoryId,
           });
         }}
-      />
-    );
-  };
-
-  return (
-    <View style={styles.screen}>
-      <>
-        <FlatList
-          data={displayRecipes}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderRecipeItem}
-          style={{ width: "90%" }}
-        />
-        <TouchableOpacity
-          style={styles.floatingActionButton}
-          onPress={() => {
-            navigation.navigate("AddRecipe", {
-              catId: categoryId,
-            });
-          }}
-        >
-          <Entypo name="plus" color="white" size={20} />
-        </TouchableOpacity>
-      </>
-    </View>
+      >
+        <Entypo name="plus" color="white" size={20} />
+      </TouchableOpacity>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   floatingActionButton: {
     backgroundColor: Colors.primaryColor,
     width: 45,
     height: 45,
     position: "absolute",
-    bottom: 15,
-    right: 10,
+    bottom: 25,
+    right: 20,
     borderRadius: 100,
     justifyContent: "center",
     alignItems: "center",
