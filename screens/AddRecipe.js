@@ -4,7 +4,7 @@ import {
   View,
   StyleSheet,
   ScrollView,
-  Button,
+  TouchableOpacity,
   Image,
 } from "react-native";
 import api from "../api/api";
@@ -12,7 +12,9 @@ import Input from "../components/Input";
 import ImagePickerComponent from "../components/ImagePickerComponent";
 import AmountInput from "../components/AmountInput";
 import * as ImagePicker from "expo-image-picker";
-import AddButton from "../components/AddButton";
+import RecipeButton from "../components/RecipeButton";
+import { Ionicons } from "@expo/vector-icons";
+import Colors from "../constants/Colors";
 
 const AddRecipe = ({ navigation, route }) => {
   const { catId } = route.params;
@@ -24,7 +26,7 @@ const AddRecipe = ({ navigation, route }) => {
   const [textInputRecipe, setTextInputRecipe] = useState([]);
   const [inputRecipes, setInputRecipes] = useState([]);
 
-  // Image Control
+  // ** Image Control ** //
   useEffect(() => {
     (async () => {
       if (Platform.OS !== "web") {
@@ -52,7 +54,7 @@ const AddRecipe = ({ navigation, route }) => {
     }
   };
 
-  // Function to add TextInput Ingredient dynamically
+  // ** Function to add TextInput Ingredients dynamically ** //
   const addTextInputIngredient = (index) => {
     let inputs = [...textInputIngredient];
     inputs.push(
@@ -70,7 +72,14 @@ const AddRecipe = ({ navigation, route }) => {
     setTextInputIngredient(inputs);
   };
 
-  // Function to add TextInput Recipe dynamicaly
+  // ** Function to remove last item in TextInput Ingredients ** //
+  const removeTextInputIngredient = () => {
+    let inputs = [...textInputIngredient];
+    inputs.splice(-1, 1);
+    setTextInputIngredient(inputs);
+  };
+
+  // ** Function to add TextInput Recipe dynamicaly ** //
   const addTextInputRecipe = (index) => {
     let inputs = [...textInputRecipe];
     inputs.push(
@@ -88,7 +97,14 @@ const AddRecipe = ({ navigation, route }) => {
     setTextInputRecipe(inputs);
   };
 
-  //   Functions to add quantity and ingredients into single array.
+  // ** Function to remove last item in TextInput Recipe ** //
+  const removeTextInputRecipe = () => {
+    let inputs = [...textInputRecipe];
+    inputs.splice(-1, 1);
+    setTextInputRecipe(inputs);
+  };
+
+  // ** Functions to add quantity and ingredients into single array. ** //
   const addQuantitys = (quantity, index) => {
     let dataArray = inputIngredients;
     let checkBool = false;
@@ -133,7 +149,7 @@ const AddRecipe = ({ navigation, route }) => {
     }
   };
 
-  // Function to add steps & descriptions into single array
+  // ** Function to add steps & descriptions into single array ** //
   const addSteps = (step, index) => {
     let dataArray = inputRecipes;
     let checkBool = false;
@@ -178,7 +194,7 @@ const AddRecipe = ({ navigation, route }) => {
     }
   };
 
-  // Send control
+  // ** Send control ** //
   const createNewRecipe = () => {
     if (
       enteredName === "" ||
@@ -238,22 +254,54 @@ const AddRecipe = ({ navigation, route }) => {
         {textInputIngredient.map((el) => {
           return el;
         })}
-        {/* Add ingredient */}
-        <AddButton
-          label="Ajouter ingrédient"
-          onPress={() => addTextInputIngredient(textInputIngredient.length)}
-        />
+        {/* Add and remove ingredient */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <RecipeButton
+            label="Ajouter ingrédient"
+            iconName="add-circle-sharp"
+            colorIcon="green"
+            onPress={() => addTextInputIngredient(textInputIngredient.length)}
+          />
+          <RecipeButton
+            label="Supprimer"
+            iconName="remove-circle"
+            colorIcon="red"
+            onPress={() =>
+              removeTextInputIngredient(textInputIngredient.length)
+            }
+          />
+        </View>
         {/* Recipes input */}
         <Text style={styles.titleStyle}>Recette</Text>
-        {/* Recipes input */}
         {textInputRecipe.map((el) => {
           return el;
         })}
-        <AddButton
-          label="Nouvelle étape"
-          onPress={() => addTextInputRecipe(textInputRecipe.length)}
-        />
-        <Button title="SEND REQUEST" onPress={() => createNewRecipe()} />
+        {/* Add and delete step of recipe */}
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <RecipeButton
+            label="Nouvelle étape"
+            iconName="add-circle-sharp"
+            colorIcon="green"
+            onPress={() => addTextInputRecipe(textInputRecipe.length)}
+          />
+          <RecipeButton
+            label="Supprimer"
+            iconName="remove-circle"
+            colorIcon="red"
+            onPress={() => removeTextInputRecipe(textInputRecipe.length)}
+          />
+        </View>
+        {/* Send button */}
+        <View style={{ alignItems: "center", marginTop: 80 }}>
+          <TouchableOpacity onPress={() => createNewRecipe()}>
+            <Ionicons name="add-circle" size={70} color={Colors.primaryColor} />
+          </TouchableOpacity>
+        </View>
       </View>
     </ScrollView>
   );

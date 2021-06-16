@@ -3,12 +3,12 @@ import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../constants/Colors";
 
-const AddButton = ({ label, onPress }) => {
+const RecipeButton = ({ label, onPress, iconName, colorIcon }) => {
   const { container, buttonContainer, labelStyle } = styles;
   return (
     <View style={container}>
       <TouchableOpacity style={buttonContainer} onPress={onPress}>
-        <Ionicons name="add" size={20} color={Colors.primaryColor} />
+        <Ionicons name={iconName} size={20} color={colorIcon} />
         <Text style={labelStyle}>{label}</Text>
       </TouchableOpacity>
     </View>
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    width: 180,
+    width: 200,
   },
   labelStyle: {
     fontFamily: "Montserrat-Regular",
@@ -32,4 +32,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddButton;
+export default RecipeButton;
