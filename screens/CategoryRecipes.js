@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
+import { TouchableOpacity, StyleSheet } from "react-native";
 import api from "../api/api";
 import RecipeList from "../components/RecipeList";
 import Colors from "../constants/Colors";
@@ -13,7 +13,6 @@ const CategoryRecipes = ({ route, navigation }) => {
   const displayRecipes = dataRecipes.filter((recipe) => {
     return recipe.categoryIds.toString().indexOf(categoryId) >= 0;
   });
-  console.log("--DISPLAY RECIPES-- : " + displayRecipes);
 
   useEffect(() => {
     navigation.setOptions({
@@ -26,10 +25,7 @@ const CategoryRecipes = ({ route, navigation }) => {
       api
         .get("/recipes")
         .then(({ data }) => {
-          data.filter((obj) => {
-            console.log(obj);
-            setDataRecipes(data);
-          });
+          setDataRecipes(data);
         })
         .catch((error) => console.error(error));
     });

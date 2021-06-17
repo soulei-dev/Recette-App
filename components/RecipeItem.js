@@ -8,6 +8,7 @@ import {
   Animated,
 } from "react-native";
 import Swipeable from "react-native-gesture-handler/Swipeable";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const RecipeItem = ({
   onSelectRecipe,
@@ -15,6 +16,7 @@ const RecipeItem = ({
   duration,
   imageUrl,
   handleDelete,
+  handleUpdate,
 }) => {
   const rightSwipe = (progress, dragX) => {
     const scale = dragX.interpolate({
@@ -26,7 +28,24 @@ const RecipeItem = ({
       <TouchableOpacity activeOpacity={0.6} onPress={handleDelete}>
         <View style={styles.deleteBox}>
           <Animated.Text style={{ transform: [{ scale: scale }] }}>
-            Supprimer
+            <MaterialIcons name="delete" size={25} color="white" />
+          </Animated.Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  const leftSwipe = (progress, dragX) => {
+    const scale = dragX.interpolate({
+      inputRange: [0, 100],
+      outputRange: [1, 1.3],
+    });
+
+    return (
+      <TouchableOpacity activeOpacity={0.6} onPress={handleUpdate}>
+        <View style={styles.updateBox}>
+          <Animated.Text style={{ transform: [{ scale: scale }] }}>
+            Editer
           </Animated.Text>
         </View>
       </TouchableOpacity>
@@ -34,7 +53,7 @@ const RecipeItem = ({
   };
 
   return (
-    <Swipeable renderRightActions={rightSwipe}>
+    <Swipeable renderRightActions={rightSwipe} renderLeftActions={leftSwipe}>
       <View style={styles.recipeItem}>
         <TouchableOpacity onPress={onSelectRecipe}>
           <View>
@@ -92,7 +111,14 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   deleteBox: {
-    backgroundColor: "red",
+    backgroundColor: "#ff3636",
+    height: 200,
+    justifyContent: "center",
+    width: 130,
+    alignItems: "center",
+  },
+  updateBox: {
+    backgroundColor: "gray",
     height: 200,
     justifyContent: "center",
     width: 100,

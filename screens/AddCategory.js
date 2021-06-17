@@ -32,8 +32,6 @@ const AddCategory = ({ navigation }) => {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.cancelled) {
       setImageUrl(result.uri);
     }

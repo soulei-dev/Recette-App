@@ -20,10 +20,7 @@ const Categories = ({ navigation }) => {
       api
         .get("/categories")
         .then(({ data }) => {
-          data.filter((obj) => {
-            console.log(obj);
-            setData(data);
-          });
+          setData(data);
         })
         .catch((error) => console.error(error))
         .finally(() => setLoading(false));

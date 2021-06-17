@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { Text, View, StyleSheet, ScrollView, Image } from "react-native";
 import api from "../api/api";
 import Input from "../components/Input";
 import ImagePickerComponent from "../components/ImagePickerComponent";
 import AmountInput from "../components/AmountInput";
 import * as ImagePicker from "expo-image-picker";
 import RecipeButton from "../components/RecipeButton";
-import { Ionicons } from "@expo/vector-icons";
-import Colors from "../constants/Colors";
+
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import HeaderButton from "../components/HeaderButton";
 
 const AddRecipe = ({ navigation, route }) => {
   const { catId } = route.params;
@@ -25,6 +19,21 @@ const AddRecipe = ({ navigation, route }) => {
   const [textInputIngredient, setTextInputIngredient] = useState([]);
   const [textInputRecipe, setTextInputRecipe] = useState([]);
   const [inputRecipes, setInputRecipes] = useState([]);
+
+  // Header Button
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderButtons HeaderButtonComponent={HeaderButton}>
+          <Item
+            title="Favoris"
+            iconName="send-circle"
+            onPress={() => createNewRecipe()}
+          />
+        </HeaderButtons>
+      ),
+    });
+  });
 
   // ** Image Control ** //
   useEffect(() => {
@@ -46,8 +55,6 @@ const AddRecipe = ({ navigation, route }) => {
       aspect: [4, 3],
       quality: 1,
     });
-
-    console.log(result);
 
     if (!result.cancelled) {
       setImageUrl(result.uri);
@@ -203,7 +210,7 @@ const AddRecipe = ({ navigation, route }) => {
       inputIngredients.length === 0 ||
       inputRecipes.length === 0
     ) {
-      alert("no");
+      alert("Tout les champs doivent être remplit !");
     } else {
       api
         .post("/recipes", {
@@ -214,8 +221,7 @@ const AddRecipe = ({ navigation, route }) => {
           inputIngredients: inputIngredients,
           categoryIds: catId,
         })
-        .then(({ data }) => {
-          console.log(data);
+        .then(() => {
           navigation.goBack();
         })
         .catch((error) => console.log(error));
@@ -295,12 +301,6 @@ const AddRecipe = ({ navigation, route }) => {
             colorIcon="red"
             onPress={() => removeTextInputRecipe(textInputRecipe.length)}
           />
-        </View>
-        {/* Send button */}
-        <View style={{ alignItems: "center", marginTop: 80 }}>
-          <TouchableOpacity onPress={() => createNewRecipe()}>
-            <Ionicons name="add-circle" size={70} color={Colors.primaryColor} />
-          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>

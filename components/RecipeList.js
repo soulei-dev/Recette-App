@@ -5,8 +5,6 @@ import api from "../api/api";
 
 const RecipeList = ({ listData, navigation }) => {
   const [recipeData, setRecipeData] = useState();
-  console.log("--- RECIPE DATA -- : " + recipeData);
-  console.log("--- LIST DATA -- : " + listData);
 
   useEffect(() => {
     setRecipeData(listData);
@@ -16,11 +14,15 @@ const RecipeList = ({ listData, navigation }) => {
     const deleteItem = (id) => {
       api.delete("/recipes/" + id).then((res) => {
         if (res.data != null) {
-          alert("Recette supprimée avec succès !");
+          alert("Votre recette a bien été supprimer !");
           const recipeId = recipeData.filter((item) => item.id !== id);
           setRecipeData(recipeId);
         }
       });
+    };
+
+    const updateItem = (id) => {
+      alert(id);
     };
     return (
       <RecipeItem
@@ -34,6 +36,7 @@ const RecipeList = ({ listData, navigation }) => {
           });
         }}
         handleDelete={() => deleteItem(itemData.item.id)}
+        handleUpdate={() => updateItem(itemData.item.id)}
       />
     );
   };

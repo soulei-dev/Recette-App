@@ -28,7 +28,7 @@ const RecipeDetail = ({ route, navigation }) => {
         <HeaderButtons HeaderButtonComponent={HeaderButton}>
           <Item
             title="Favoris"
-            iconName="hearto"
+            iconName="heart-outline"
             onPress={() => {
               console.log("--Added into Favorite screen !--");
             }}
